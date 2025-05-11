@@ -19,9 +19,10 @@ export default {
 			}
 		},
 		extend: {
-			fontFamily: {
-				orbitron: ['Orbitron', 'sans-serif'],
-			},
+fontFamily: {
+bai: ['Bai Jamjuree', 'sans-serif'],
+dseg: ['DSEG7Classic-Bold', 'monospace'],
+},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

@@ -61,13 +61,13 @@ const PlayerScore = ({ initialName, color, index }: PlayerScoreProps) => {
               onChange={handleNameChange}
               onBlur={handleBlur}
               autoFocus
-              className="font-orbitron text-white text-xl md:text-2xl bg-transparent border-white text-center w-3/4"
+              className="font-bai text-white text-xl md:text-2xl bg-transparent border-white text-center w-3/4"
               maxLength={15}
             />
           </form>
         ) : (
           <h2 
-            className="font-orbitron text-white text-xl md:text-2xl font-bold uppercase tracking-wider cursor-pointer"
+            className="font-bai text-white text-xl md:text-2xl font-bold uppercase tracking-wider cursor-pointer"
             onClick={startEditing}
           >
             {name}
@@ -75,29 +75,28 @@ const PlayerScore = ({ initialName, color, index }: PlayerScoreProps) => {
         )}
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
-        <span className="font-orbitron text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem] font-bold text-black">
-          {score}
-        </span>
-      </div>
-
-      <div className="flex justify-center w-full p-4 gap-2">
-        <Button
-          variant="outline"
-          size="lg"
-          className="rounded-full aspect-square p-0 border-2 border-black bg-white/70"
-          onClick={decreaseScore}
-        >
-          <Minus className="h-6 w-6" />
-        </Button>
-        <Button
-          variant="outline"
-          size="lg"
-          className="rounded-full aspect-square p-0 border-2 border-black bg-white/70"
-          onClick={increaseScore}
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
+      <div className="flex-1 flex items-center justify-center w-full">
+        <div className="flex flex-row items-center justify-center w-full gap-6">
+          <Button
+            variant="outline"
+            size="lg"
+            className="rounded-full aspect-square p-0 border-2 border-black bg-white/70"
+            onClick={decreaseScore}
+          >
+            <Minus className="h-6 w-6" />
+          </Button>
+          <span className="font-dseg text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem] font-bold text-black select-none">
+            {score}
+          </span>
+          <Button
+            variant="outline"
+            size="lg"
+            className="rounded-full aspect-square p-0 border-2 border-black bg-white/70"
+            onClick={increaseScore}
+          >
+            <Plus className="h-6 w-6" />
+          </Button>
+        </div>
       </div>
     </div>
   );
