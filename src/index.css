@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -95,7 +96,13 @@
     @apply border-border;
   }
 
+  html, body {
+    @apply font-orbitron overflow-hidden;
+  }
+
   body {
     @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
   }
 }
