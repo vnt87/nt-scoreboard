@@ -9,6 +9,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
+import { useWakeLock } from "@/hooks/useWakeLock";
+import { toast } from "@/components/ui/sonner";
 import { Menu, RotateCcw, Maximize, Minimize, ExternalLink, Github, DollarSign } from "lucide-react";
 import {
   AlertDialog,
@@ -72,6 +75,36 @@ function getDefaultPlayers(count: number): Player[] {
 
 const Scoreboard = () => {
   const [players, setPlayers] = useState<Player[]>(getDefaultPlayers(2));
+  const [keepScreenAwake, setKeepScreenAwake] = useState(false);
+
+  const { isWakeLockSupported, isWakeLockActive, requestWakeLock, releaseWakeLock } = useWakeLock();
+
+  // Handle wake lock toggle effect
+  useEffect(() => {
+    if (!isWakeLockSupported && keepScreenAwake) {
+      toast.error("Screen Wake Lock API is not supported in this browser.");
+      setKeepScreenAwake(false);
+      return;
+    }
+    if (keepScreenAwake) {
+      requestWakeLock().catch((err) => {
+        toast.error("Failed to acquire wake lock: " + (err?.message || "Unknown error"));
+        setKeepScreenAwake(false);
+      });
+    } else {
+      releaseWakeLock();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keepScreenAwake, isWakeLockSupported]);
+
+  // Show info toast if wake lock is released unexpectedly
+  useEffect(() => {
+    if (!isWakeLockActive && keepScreenAwake && isWakeLockSupported) {
+      toast.info("Screen wake lock was released.");
+      setKeepScreenAwake(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isWakeLockActive]);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -224,6 +257,21 @@ const Scoreboard = () => {
             </div>
             <DropdownMenuSeparator />
             <FullScreenMenuItem />
+            <DropdownMenuSeparator />
+            {/* Screen Wake Lock Toggle */}
+            <DropdownMenuItem
+              onSelect={e => e.preventDefault()}
+              className="flex items-center justify-between"
+              disabled={!isWakeLockSupported}
+            >
+              <span className="text-sm flex-1">Keep Screen Awake</span>
+              <Switch
+                checked={keepScreenAwake}
+                onCheckedChange={setKeepScreenAwake}
+                disabled={!isWakeLockSupported}
+                aria-label="Toggle screen wake lock"
+              />
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <AlertDialog>
               <AlertDialogTrigger asChild>
