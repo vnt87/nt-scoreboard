@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PlayerScore from './PlayerScore';
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,14 @@ const PLAYER_COLORS = [
   "#ff9f0a",
 ];
 
-const DEFAULT_NAMES = ["PLAYER 1", "PLAYER 2", "PLAYER 3", "PLAYER 4"];
+const NEW_PLAYER_CANDIDATE_NAMES = [
+  "Nam the Man",
+  "Huy Tóc Dài",
+  "Sên Van Tính",
+  "Hiếu Se Điếu",
+  "Tuấn Hoa Hồng",
+  "Công Mong"
+];
 const SCOREBOARD_STORAGE_KEY = 'ntScoreboardState';
 
 interface Player {
@@ -29,13 +36,27 @@ interface Player {
   color: string;
 }
 
+/**
+ * Generate default players with unique, random names from NEW_PLAYER_CANDIDATE_NAMES.
+ * If the pool is exhausted, fallback to "Player N".
+ */
 function getDefaultPlayers(count: number): Player[] {
-  return Array.from({ length: count }).map((_, i) => ({
-    id: i,
-    name: DEFAULT_NAMES[i],
-    score: 0,
-    color: PLAYER_COLORS[i],
-  }));
+  // Shuffle the candidate names
+  const shuffledNames = [...NEW_PLAYER_CANDIDATE_NAMES].sort(() => Math.random() - 0.5);
+  const usedNames = new Set<string>();
+  return Array.from({ length: count }).map((_, i) => {
+    let name = shuffledNames.find(n => !usedNames.has(n));
+    if (!name) {
+      name = `Player ${i + 1}`;
+    }
+    usedNames.add(name);
+    return {
+      id: i,
+      name,
+      score: 0,
+      color: PLAYER_COLORS[i % PLAYER_COLORS.length],
+    };
+  });
 }
 
 const Scoreboard = () => {
@@ -61,15 +82,41 @@ const Scoreboard = () => {
     localStorage.setItem(SCOREBOARD_STORAGE_KEY, JSON.stringify(players));
   }, [players]);
 
+  /**
+   * Change the number of players, ensuring new players get unique names from the pool.
+   * No duplicate names from NEW_PLAYER_CANDIDATE_NAMES will be assigned.
+   */
   const handlePlayerCountChange = (value: string) => {
     const newCount = parseInt(value);
     setPlayers(prev => {
       if (newCount > prev.length) {
-        // Add new players
-        return [
-          ...prev,
-          ...getDefaultPlayers(newCount).slice(prev.length, newCount)
-        ];
+        // Add new players with unique names from the pool
+        const usedNames = new Set(prev.map(p => p.name));
+        // Also track names that will be assigned in this batch
+        const newPlayers: Player[] = [];
+        let colorIdx = prev.length;
+        for (let i = prev.length; i < newCount; i++) {
+          // Find a name from the pool not already used
+          const availableNames = NEW_PLAYER_CANDIDATE_NAMES.filter(n =>
+            !usedNames.has(n) && !newPlayers.some(p => p.name === n)
+          );
+          let name: string;
+          if (availableNames.length > 0) {
+            // Pick randomly from available names
+            name = availableNames[Math.floor(Math.random() * availableNames.length)];
+          } else {
+            // Fallback to "Player N"
+            name = `Player ${i + 1}`;
+          }
+          newPlayers.push({
+            id: i,
+            name,
+            score: 0,
+            color: PLAYER_COLORS[colorIdx % PLAYER_COLORS.length],
+          });
+          colorIdx++;
+        }
+        return [...prev, ...newPlayers];
       } else {
         // Remove players
         return prev.slice(0, newCount);
