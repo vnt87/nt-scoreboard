@@ -1,73 +1,72 @@
-# Welcome to your Lovable project
+# NT Scoreboard Lovable
 
-## Project info
+A modern, interactive scoreboard application built with React, Vite, TypeScript, and Shadcn/UI.
 
-**URL**: https://lovable.dev/projects/609f05d1-843d-4dab-b31a-9a3b27cafc38
+## Screenshot
 
-## How can I edit this code?
+![App Screenshot](/public/screenshot.png)
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend Framework:** React 18
+- **Build Tool:** Vite
+- **Language:** TypeScript
+- **UI Components:** Shadcn/UI (built on Radix UI primitives)
+- **Styling:** Tailwind CSS
+- **Routing:** React Router DOM
+- **Forms:** React Hook Form with Zod for validation
+- **Linting:** ESLint
+- **Package Manager:** npm / Bun (supports both)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/609f05d1-843d-4dab-b31a-9a3b27cafc38) and start prompting.
+## Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+Before you begin, ensure you have the following installed:
+- Node.js (LTS version recommended)
+- Bun (Optional, but recommended if you prefer using Bun)
 
-**Use your preferred IDE**
+## Installation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Clone the repository (if applicable):**
+    ```bash
+    git clone https://github.com/vnt87/nt-scoreboard
+    cd nt-scoreboard
+    ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. **Install dependencies:**
 
-Follow these steps:
+    Using npm:
+    ```bash
+    npm install
+    ```
+    Or using Bun:
+    ```bash
+    bun install
+    ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Running the Project
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+To start the development server:
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Using npm:
+```bash
 npm run dev
 ```
+Or using Bun:
+```bash
+bun dev
+```
+This will typically start the application on `http://localhost:8080` (Vite's default port, but check your terminal output).
 
-**Edit a file directly in GitHub**
+## Available Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+In the project directory, you can run the following scripts:
 
-**Use GitHub Codespaces**
+- `npm run dev` or `bun dev`: Starts the development server.
+- `npm run build` or `bun build`: Builds the app for production to the `dist` folder.
+- `npm run build:dev` or `bun run build:dev`: Builds the app for development (includes source maps, etc.).
+- `npm run lint` or `bun lint`: Lints the codebase using ESLint.
+- `npm run preview` or `bun preview`: Serves the production build locally for preview.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/609f05d1-843d-4dab-b31a-9a3b27cafc38) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project was bootstrapped with Vite and uses Shadcn/UI for its component library.
