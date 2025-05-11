@@ -75,28 +75,22 @@ const PlayerScore = ({ initialName, color, index }: PlayerScoreProps) => {
         )}
       </div>
 
-      <div className="flex-1 flex items-center justify-center w-full">
-        <div className="flex flex-row items-center justify-center w-full gap-6">
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full aspect-square p-0 border-2 border-black bg-white/70"
-            onClick={decreaseScore}
-          >
-            <Minus className="h-6 w-6" />
-          </Button>
-          <span className="font-dseg text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem] font-bold text-black select-none">
-            {score}
-          </span>
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full aspect-square p-0 border-2 border-black bg-white/70"
-            onClick={increaseScore}
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
-        </div>
+      <div className="flex-1 flex items-center justify-center w-full relative">
+        <Button
+          className="absolute left-4 top-1/2 -translate-y-1/2 p-0 bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent active:bg-transparent"
+          onClick={decreaseScore}
+        >
+          <Minus className="h-10 w-10" />
+        </Button>
+        <span className="font-dseg text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem] font-bold text-black select-none mx-auto">
+          {score}
+        </span>
+        <Button
+          className="absolute right-4 top-1/2 -translate-y-1/2 p-0 bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent active:bg-transparent"
+          onClick={increaseScore}
+        >
+          <Plus className="h-10 w-10" />
+        </Button>
       </div>
     </div>
   );
