@@ -9,7 +9,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Menu, RotateCcw, Maximize, Minimize } from "lucide-react";
+import { Menu, RotateCcw, Maximize, Minimize, ExternalLink, Github, DollarSign } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { useScreenDetails } from "@/hooks/useScreenDetails";
 
 const PLAYER_COLORS = [
@@ -214,12 +225,44 @@ const Scoreboard = () => {
             <DropdownMenuSeparator />
             <FullScreenMenuItem />
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onSelect={e => { e.preventDefault(); handleReset(); }}
-              className="text-red-600 focus:text-red-700"
-            >
-              <RotateCcw className="mr-2 h-4 w-4" />
-              Reset Game
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem
+                  onSelect={e => e.preventDefault()}
+                  className="text-red-600 focus:text-red-700"
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Reset Game
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Cảnh báo</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Reset là về 0 hết đấy? Bạn chắc chưa?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleReset}>Chắc, Reset Đi</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Links</DropdownMenuLabel>
+            <DropdownMenuItem asChild>
+              <a href="https://github.com/vnt87/nt-scoreboard" target="_blank" rel="noopener noreferrer" className="w-full flex items-center">
+                <Github className="mr-2 h-4 w-4" />
+                Source Code
+                <ExternalLink className="ml-auto h-3 w-3 opacity-70" />
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href="https://chiabill.pages.dev" target="_blank" rel="noopener noreferrer" className="w-full flex items-center">
+                <DollarSign className="mr-2 h-4 w-4" />
+                Chia Bill
+                <ExternalLink className="ml-auto h-3 w-3 opacity-70" />
+              </a>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
