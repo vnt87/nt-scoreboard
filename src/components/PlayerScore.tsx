@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,27 +5,36 @@ import { Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PlayerScoreProps {
-  initialName: string;
+  id: number;
+  name: string;
+  score: number;
   color: string;
-  index: number;
+  onScoreChange: (newScore: number) => void;
+  onNameChange: (newName: string) => void;
 }
 
-const PlayerScore = ({ initialName, color, index }: PlayerScoreProps) => {
-  const [score, setScore] = useState(0);
-  const [name, setName] = useState(initialName);
+const PlayerScore = ({
+  id,
+  name,
+  score,
+  color,
+  onScoreChange,
+  onNameChange,
+}: PlayerScoreProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [inputValue, setInputValue] = useState(initialName);
+  const [inputValue, setInputValue] = useState(name);
 
   const increaseScore = () => {
-    setScore(prevScore => prevScore + 1);
+    onScoreChange(score + 1);
   };
 
   const decreaseScore = () => {
-    setScore(prevScore => prevScore - 1);
+    onScoreChange(score - 1);
   };
 
   const startEditing = () => {
     setIsEditing(true);
+    setInputValue(name);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,12 +43,12 @@ const PlayerScore = ({ initialName, color, index }: PlayerScoreProps) => {
 
   const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setName(inputValue || initialName);
+    onNameChange(inputValue || name);
     setIsEditing(false);
   };
 
   const handleBlur = () => {
-    setName(inputValue || initialName);
+    onNameChange(inputValue || name);
     setIsEditing(false);
   };
 
