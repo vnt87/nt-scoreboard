@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NumberFlow from "@number-flow/react";
 
 /**
  * Props for PlayerScore component.
@@ -102,11 +103,11 @@ const PlayerScore = ({
         >
           <Minus className="h-10 w-10" />
         </Button>
-        <span
+        <NumberFlow
+          value={score}
           className={
             [
               "font-dseg font-bold text-black select-none mx-auto",
-              // Responsive font size for mobile landscape
               isMobile && isLandscape
                 ? "text-5xl sm:text-7xl"
                 : "text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem]"
@@ -114,9 +115,7 @@ const PlayerScore = ({
           }
           // Optionally, for more dynamic scaling, you could use style with screenHeight
           // style={isMobile && isLandscape && screenHeight ? { fontSize: Math.max(32, Math.floor(screenHeight * 0.15)) } : undefined}
-        >
-          {score}
-        </span>
+        />
         <Button
           className="absolute right-4 top-1/2 -translate-y-1/2 p-0 bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent active:bg-transparent"
           onClick={increaseScore}
