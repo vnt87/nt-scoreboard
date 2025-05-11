@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Menu, RotateCcw, Maximize, Minimize } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useScreenDetails } from "@/hooks/useScreenDetails";
 
 const PLAYER_COLORS = [
   "#ff3b30",
@@ -141,16 +141,32 @@ const Scoreboard = () => {
     setPlayers(getDefaultPlayers(2));
   };
 
-  const isMobile = useIsMobile();
+  const { isMobile, isLandscape, height: screenHeight } = useScreenDetails();
 
   // Helper for responsive player layout
-  const getPlayerLayoutClasses = (playerCount: number, index: number, isMobileView: boolean): string => {
+  /**
+   * Returns Tailwind classes for player layout based on player count, mobile/landscape state.
+   */
+  const getPlayerLayoutClasses = (
+    playerCount: number,
+    index: number,
+    isMobileView: boolean,
+    isLandscapeView: boolean
+  ): string => {
     if (isMobileView) {
-      if (playerCount === 1) return "w-full h-full";
-      if (playerCount === 2) return "w-full h-1/2";
-      if (playerCount === 3) return "w-full h-1/3";
-      if (playerCount === 4) return "w-full h-1/4";
-      return "w-full";
+      if (isLandscapeView) {
+        if (playerCount === 1) return "w-full h-full";
+        if (playerCount === 2) return "w-1/2 h-full";
+        if (playerCount === 3) return "w-1/3 h-full";
+        if (playerCount === 4) return "w-1/2 h-1/2";
+        return "w-full h-auto";
+      } else {
+        if (playerCount === 1) return "w-full h-full";
+        if (playerCount === 2) return "w-full h-1/2";
+        if (playerCount === 3) return "w-full h-1/3";
+        if (playerCount === 4) return "w-full h-1/4";
+        return "w-full";
+      }
     }
     if (playerCount === 1) return "w-full h-full";
     if (playerCount === 2) return "w-1/2 h-full";
@@ -209,11 +225,11 @@ const Scoreboard = () => {
         </DropdownMenu>
       </div>
       
-      <div className={`h-full w-full flex ${isMobile ? 'flex-col' : 'flex-row'} flex-wrap`}>
+      <div className={`h-full w-full flex ${isMobile && !isLandscape ? 'flex-col' : 'flex-row'} flex-wrap`}>
         {players.map((player, index) => (
           <div 
             key={player.id}
-            className={getPlayerLayoutClasses(players.length, index, isMobile)}
+            className={getPlayerLayoutClasses(players.length, index, isMobile, isLandscape)}
           >
             <PlayerScore
               id={player.id}
@@ -222,6 +238,9 @@ const Scoreboard = () => {
               color={player.color}
               onScoreChange={newScore => updatePlayerScore(player.id, newScore)}
               onNameChange={newName => updatePlayerName(player.id, newName)}
+              isMobile={isMobile}
+              isLandscape={isLandscape}
+              screenHeight={screenHeight}
             />
           </div>
         ))}

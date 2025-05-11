@@ -4,6 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Props for PlayerScore component.
+ * - isMobile: true if on mobile device (optional)
+ * - isLandscape: true if in landscape orientation (optional)
+ * - screenHeight: viewport height in px (optional, for advanced font scaling)
+ */
 interface PlayerScoreProps {
   id: number;
   name: string;
@@ -11,6 +17,9 @@ interface PlayerScoreProps {
   color: string;
   onScoreChange: (newScore: number) => void;
   onNameChange: (newName: string) => void;
+  isMobile?: boolean;
+  isLandscape?: boolean;
+  screenHeight?: number;
 }
 
 const PlayerScore = ({
@@ -20,6 +29,9 @@ const PlayerScore = ({
   color,
   onScoreChange,
   onNameChange,
+  isMobile,
+  isLandscape,
+  screenHeight,
 }: PlayerScoreProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(name);
@@ -90,7 +102,19 @@ const PlayerScore = ({
         >
           <Minus className="h-10 w-10" />
         </Button>
-        <span className="font-dseg text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem] font-bold text-black select-none mx-auto">
+        <span
+          className={
+            [
+              "font-dseg font-bold text-black select-none mx-auto",
+              // Responsive font size for mobile landscape
+              isMobile && isLandscape
+                ? "text-5xl sm:text-7xl"
+                : "text-7xl sm:text-9xl md:text-[12rem] lg:text-[16rem]"
+            ].join(" ")
+          }
+          // Optionally, for more dynamic scaling, you could use style with screenHeight
+          // style={isMobile && isLandscape && screenHeight ? { fontSize: Math.max(32, Math.floor(screenHeight * 0.15)) } : undefined}
+        >
           {score}
         </span>
         <Button
